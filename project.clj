@@ -1,5 +1,5 @@
 (defproject tle-clj "0.1.0-SNAPSHOT"
-  :description "A Clojure library designed to handle Two Line Element (TLE) data for calculating orbital parameters, usually for satellites."
+  :description "A Clojure library designed to handle Two Line Element (TLE) sets for calculating orbital parameters, usually for satellites."
   :url "http://github.com/gershwinlabs/tle-clj"
   :license {:name "MIT"
             :url "https://opensource.org/licenses/MIT"}

@@ -36,9 +36,13 @@
         significand (str "0." (tle-significand number-string))
         exponent (tle-exponent number-string)]
     (Float/parseFloat (str sign significand "e" exponent))))
-;    (* significand
-;       (math/expt 10 exponent)
-;       (if (= sign "-") -1.0 1.0))))
+
+(defn parse-int-or-default
+  "Parses a string and returns an integer, or returns a default"
+  [number-string default]
+  (try
+    (Integer/parseInt number-string)
+    (catch NumberFormatException e default)))
 
 (defn map-line1
   "Generates a map for TLE line 1"
@@ -53,8 +57,8 @@
     :epoch-day (subs line1 20 32)
     :mean-motion-derivative (Float/parseFloat (subs line1 33 43))
     :mean-motion-second-derivative (read-tle-decimal (subs line1 44 52))
-    :bstar (subs line1 53 61)
-    :ephemeris-type (subs line1 62 63)
+    :bstar (read-tle-decimal (subs line1 53 61))
+    :ephemeris-type (parse-int-or-default (subs line1 62 63) 0)
     :element-number (subs line1 64 68)
   })
 

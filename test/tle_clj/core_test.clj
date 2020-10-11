@@ -40,3 +40,8 @@
   (testing "Reads a TLE encoded decimal number"
     (let [bstar "-11606-4"]
       (is (= (read-tle-decimal bstar) (Float/parseFloat "-1.1606e-5"))))))
+
+(deftest test-parse-int-or-default
+  (testing "Parses an integer or returns the supplied default"
+    (is (= (parse-int-or-default " " 0) 0))
+    (is (= (parse-int-or-default "8675309" 0) 8675309))))
