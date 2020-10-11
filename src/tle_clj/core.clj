@@ -59,20 +59,20 @@
     :mean-motion-second-derivative (read-tle-decimal (subs line1 44 52))
     :bstar (read-tle-decimal (subs line1 53 61))
     :ephemeris-type (parse-int-or-default (subs line1 62 63) 0)
-    :element-number (subs line1 64 68)
+    :element-number (Integer/parseInt (str/trim (subs line1 64 68)))
   })
 
 (defn map-line2
   "Generates a map for TLE line 2"
   [line2]
   {
-    :inclination (subs line2 8 16)
-    :right-ascension (subs line2 17 25)
-    :excentricity (subs line2 26 33)
-    :arg-perigee (subs line2 34 42)
-    :mean-anomaly (subs line2 43 51)
-    :mean-motion (subs line2 52 63)
-    :orbits (subs line2 63 68)
+    :inclination (Float/parseFloat (subs line2 8 16))
+    :right-ascension (Float/parseFloat (subs line2 17 25))
+    :excentricity (Float/parseFloat (str "0." (subs line2 26 33)))
+    :arg-perigee (Float/parseFloat (subs line2 34 42))
+    :mean-anomaly (Float/parseFloat (subs line2 43 51))
+    :mean-motion (Float/parseFloat (subs line2 52 63))
+    :revolutions-at-orbit (Integer/parseInt (subs line2 63 68))
   })
 
 (defn parse-tle

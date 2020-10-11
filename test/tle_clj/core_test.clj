@@ -4,6 +4,11 @@
             [tle-clj.core :refer :all]
             [clojure.math.numeric-tower :as math]))
 
+(defn equal-within-tolerance
+  "Returns true if values are equal within a certain tolerance"
+  [val1 val2 tolerance]
+  (< (math/abs (- val1 val2)) tolerance))
+
 (deftest test-create-string-list
   (testing "Breaks TLE into list of strings"
     (let [parsed-tle (parse-tle "1 25544U 98067A   20270.89265910  .00001975  00000-0  44284-4 0  9999"
@@ -23,8 +28,8 @@
   (testing "Generates map from line 2 of TLE"
     (let [map2 (map-line2 "2 25544  51.6439 205.2096 0001346  99.6014   5.3272 15.48789727247782")]
       (is (map? map2))
-      (is (= (get map2 :inclination) " 51.6439"))
-      (is (= (get map2 :excentricity) "0001346")))))
+      (is (equal-within-tolerance (get map2 :inclination) 51.6439 0.0001))
+      (is (equal-within-tolerance (get map2 :excentricity) 0.0001346 0.0000001)))))
 
 (deftest test-tle-significand
   (testing "Pulls out significand portion of TLE decimal"
@@ -39,7 +44,7 @@
 (deftest test-read-tle-decimal
   (testing "Reads a TLE encoded decimal number"
     (let [bstar "-11606-4"]
-      (is (= (read-tle-decimal bstar) (Float/parseFloat "-1.1606e-5"))))))
+      (is (equal-within-tolerance (read-tle-decimal bstar) -1.1606e-5 0.00000001)))))
 
 (deftest test-parse-int-or-default
   (testing "Parses an integer or returns the supplied default"
